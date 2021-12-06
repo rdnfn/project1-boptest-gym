@@ -899,6 +899,12 @@ class NormalizedObservationWrapper(gym.ObservationWrapper):
         # Construct from parent class
         super().__init__(env)
 
+        # Redefine observation space to lie between [-1,1]
+        self.observation_space = gym.spaces.Box(low = -1,
+                                       high = 1,
+                                       shape = self.unwrapped.observation_space.shape,
+                                       dtype= np.float32)
+
     def observation(self, observation):
         '''
         This method accepts a single parameter (the
@@ -922,8 +928,8 @@ class NormalizedObservationWrapper(gym.ObservationWrapper):
         '''
 
         # Convert to one number for the wrapped environment
-        observation_wrapper = 2*(observation - self.observation_space.low)/\
-            (self.observation_space.high-self.observation_space.low)-1
+        observation_wrapper = 2*(observation - self.unwrapped.observation_space.low)/\
+            (self.unwrapped.observation_space.high-self.unwrapped.observation_space.low)-1
 
         return observation_wrapper
 

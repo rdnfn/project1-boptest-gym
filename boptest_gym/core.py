@@ -862,7 +862,7 @@ class DiscretizedActionWrapper(gym.ActionWrapper):
 
         # Get the action values from bin indexes
         action = [bins[x]
-                  for x, bins in zip(action_wrapper.flatten(),
+                  for x, bins in zip(np.array(action_wrapper).flatten(),
                                      self.val_bins_act)]
 
         action = np.asarray(action).astype(self.env.action_space.dtype)
